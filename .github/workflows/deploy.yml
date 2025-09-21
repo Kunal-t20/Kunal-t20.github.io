@@ -1,0 +1,34 @@
+name: Deploy React App to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Make sure this is the correct branch you are working on
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18' # Use a Node.js version compatible with your project
+
+      - name: Install dependencies
+        run: |
+          cd client # Change to your project's client directory
+          npm install
+
+      - name: Build React app
+        run: |
+          cd client
+          npm run build
+          
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: D:\Projects\career-genai - Copy\career-genai\client\dist # This path must be correct
